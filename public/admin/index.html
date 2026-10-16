@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Konduktörens hytt</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0b1a3a">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="hero small">
+    <div class="rails" aria-hidden="true"></div>
+    <h1><span class="logo">🎩</span> Konduktörens hytt</h1>
+    <p class="tagline">Här lägger du in facit. Hemligt. Pssst.</p>
+  </header>
+
+  <main>
+    <section class="card" id="login-card">
+      <h2>Visa din konduktörsbricka</h2>
+      <form id="login-form">
+        <label class="field"><span>Lösenord</span><input type="password" id="password" required autocomplete="current-password"></label>
+        <button class="btn" type="submit">Kliv på</button>
+        <p class="msg" id="login-msg" role="status"></p>
+      </form>
+    </section>
+
+    <div id="admin" hidden>
+      <section class="card ticket">
+        <h2>Facit</h2>
+        <form id="answers-form" autocomplete="off">
+          <label class="field">
+            <span>Avsnitt (fredag)</span>
+            <select id="round-select"></select>
+          </label>
+          <div class="stops">
+            <label class="field stop"><span><b>1</b> Första resmålet</span><input name="a1" maxlength="80"></label>
+            <label class="field stop"><span><b>2</b> Andra resmålet</span><input name="a2" maxlength="80"></label>
+            <label class="field stop"><span><b>3</b> Tredje resmålet</span><input name="a3" maxlength="80"></label>
+          </div>
+          <button class="btn" type="submit">Spara facit</button>
+          <p class="msg" id="answers-msg" role="status"></p>
+        </form>
+        <p class="hint">Du kan fylla i en stad i taget medan programmet pågår. Lämna tomt för att ta bort.</p>
+      </section>
+
+      <section class="card">
+        <h2>Alla gissningar</h2>
+        <p class="hint">Du ser även förseglade gissningar här. Inget fusk nu.</p>
+        <div id="all-guesses" class="scroll"></div>
+      </section>
+
+      <p class="center"><a href="/">← Till perrongen</a> · <button class="link" id="logout">Logga ut</button></p>
+    </div>
+  </main>
+
+  <script type="module" src="/js/admin.js"></script>
+</body>
+</html>

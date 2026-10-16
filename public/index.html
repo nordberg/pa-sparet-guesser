@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>På Spåret-gissaren</title>
+  <meta name="description" content="Gissa veckans tre städer innan avsnittet börjar.">
+  <meta name="theme-color" content="#0b1a3a">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Spåret">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="rails" aria-hidden="true"></div>
+    <h1><span class="logo">🚂</span> På Spåret-gissaren</h1>
+    <p class="tagline">Gissa veckans tre städer <em>innan</em> första ledtråden. Helt omöjligt. Väldigt roligt.</p>
+    <div class="countdown-card">
+      <div class="label">Nästa avgång</div>
+      <div class="when" id="round-date">…</div>
+      <div class="countdown" id="countdown">…</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="card ticket" aria-labelledby="guess-title">
+      <h2 id="guess-title">Din biljett</h2>
+      <form id="guess-form" autocomplete="off">
+        <label class="field">
+          <span>Ditt namn</span>
+          <input name="player" id="player" required maxlength="40" list="players" placeholder="t.ex. Mormor">
+          <datalist id="players"></datalist>
+        </label>
+        <div class="stops">
+          <label class="field stop"><span><b>1</b> Första resmålet</span><input name="city1" required maxlength="80" placeholder="Stad"></label>
+          <label class="field stop"><span><b>2</b> Andra resmålet</span><input name="city2" required maxlength="80" placeholder="Stad"></label>
+          <label class="field stop"><span><b>3</b> Tredje resmålet</span><input name="city3" required maxlength="80" placeholder="Stad"></label>
+        </div>
+        <button type="submit" class="btn" id="submit-btn">Stämpla biljetten</button>
+        <p class="msg" id="form-msg" role="status"></p>
+      </form>
+      <p class="hint">Du kan ändra din gissning fram till fredag 20:00. Allas gissningar är förseglade tills tåget går.</p>
+    </section>
+
+    <section class="card" aria-labelledby="week-title">
+      <h2 id="week-title">Veckans resenärer</h2>
+      <div id="this-week" class="chips"><span class="muted">Laddar…</span></div>
+    </section>
+
+    <section class="card" aria-labelledby="board-title">
+      <h2 id="board-title">Topplista</h2>
+      <p class="hint">2 p för rätt stad på rätt resa, 1 p för rätt stad på fel resa.</p>
+      <div id="leaderboard"><span class="muted">Laddar…</span></div>
+    </section>
+
+    <section aria-labelledby="history-title">
+      <h2 id="history-title" class="section-title">Tidigare avgångar</h2>
+      <div id="history"><span class="muted">Laddar…</span></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Ett fånigt familjespel. Ej associerat med SVT.</p>
+  </footer>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

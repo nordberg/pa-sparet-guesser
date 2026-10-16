@@ -69,7 +69,8 @@ body {
   backdrop-filter: blur(6px);
 }
 .countdown-card .label { text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.14em; opacity: 0.7; }
-.countdown-card .when { font-weight: 600; text-transform: capitalize; }
+.countdown-card .when { font-weight: 600; }
+.countdown-card .when::first-letter, .card h3::first-letter { text-transform: uppercase; }
 .countdown {
   font-variant-numeric: tabular-nums;
   font-size: 1.6rem;
@@ -92,7 +93,7 @@ main {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 .card h2, .card h3 { margin: 0 0 12px; }
-.card h3 { text-transform: capitalize; }
+
 .section-title { color: #fff; margin: 12px 0 0; }
 #history { display: grid; gap: 16px; }
 

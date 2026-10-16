@@ -1,5 +1,5 @@
 // Offline-friendly app shell. Data calls to Supabase always go to the network.
-const CACHE = 'ps-v1';
+const CACHE = 'ps-v2';
 const SHELL = [
   '/',
   '/styles.css',

@@ -36,9 +36,9 @@
           <datalist id="players"></datalist>
         </label>
         <div class="stops">
-          <label class="field stop"><span><b>1</b> Första resmålet</span><input name="city1" required maxlength="80" placeholder="Stad"></label>
-          <label class="field stop"><span><b>2</b> Andra resmålet</span><input name="city2" required maxlength="80" placeholder="Stad"></label>
-          <label class="field stop"><span><b>3</b> Tredje resmålet</span><input name="city3" required maxlength="80" placeholder="Stad"></label>
+          <label class="field stop"><span><b>1</b> Stad</span><input name="city1" required maxlength="80" placeholder="Stad"></label>
+          <label class="field stop"><span><b>2</b> Stad</span><input name="city2" required maxlength="80" placeholder="Stad"></label>
+          <label class="field stop"><span><b>3</b> Stad</span><input name="city3" required maxlength="80" placeholder="Stad"></label>
         </div>
         <button type="submit" class="btn" id="submit-btn">Stämpla biljetten</button>
         <p class="msg" id="form-msg" role="status"></p>
@@ -53,7 +53,7 @@
 
     <section class="card" aria-labelledby="board-title">
       <h2 id="board-title">Topplista</h2>
-      <p class="hint">2 p för rätt stad på rätt resa, 1 p för rätt stad på fel resa.</p>
+      <p class="hint">1 poäng per rätt stad. Ordningen spelar ingen roll.</p>
       <div id="leaderboard"><span class="muted">Laddar…</span></div>
     </section>
 

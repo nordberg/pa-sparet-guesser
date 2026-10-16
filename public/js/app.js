@@ -82,15 +82,14 @@ function renderLeaderboard() {
     const ans = answersFor(g.air_date);
     if (!ans) continue;
     const key = g.player.trim().toLowerCase();
-    const row = table.get(key) || { name: g.player, points: 0, rounds: 0, best: 0, cities: 0 };
+    const row = table.get(key) || { name: g.player, points: 0, rounds: 0, best: 0 };
     const s = score(g, ans);
     row.points += s.total;
     row.rounds += 1;
     row.best = Math.max(row.best, s.total);
-    row.cities += s.perCity.filter(Boolean).length;
     table.set(key, row);
   }
-  const rows = [...table.values()].sort((a, b) => b.points - a.points || b.cities - a.cities || a.name.localeCompare(b.name, 'sv'));
+  const rows = [...table.values()].sort((a, b) => b.points - a.points || b.best - a.best || a.name.localeCompare(b.name, 'sv'));
   if (!rows.length) {
     $('leaderboard').innerHTML = '<span class="muted">Inga poäng än. Vänta tills första facit är inne.</span>';
     return;
@@ -98,10 +97,10 @@ function renderLeaderboard() {
   const medal = ['🥇', '🥈', '🥉'];
   let rank = 0, prev = null;
   $('leaderboard').innerHTML = `<table class="board">
-    <thead><tr><th></th><th>Namn</th><th class="num">Poäng</th><th class="num">Rätt städer</th><th class="num">Omg.</th></tr></thead>
+    <thead><tr><th></th><th>Namn</th><th class="num">Poäng</th><th class="num">Bästa</th><th class="num">Omg.</th></tr></thead>
     <tbody>${rows.map((r, i) => {
       if (r.points !== prev) { rank = i; prev = r.points; }
-      return `<tr><td>${medal[rank] || rank + 1}</td><td>${esc(r.name)}</td><td class="num"><b>${r.points}</b></td><td class="num">${r.cities}</td><td class="num">${r.rounds}</td></tr>`;
+      return `<tr><td>${medal[rank] || rank + 1}</td><td>${esc(r.name)}</td><td class="num"><b>${r.points}</b></td><td class="num">${r.best}</td><td class="num">${r.rounds}</td></tr>`;
     }).join('')}</tbody></table>`;
 }
 
@@ -125,7 +124,7 @@ function renderHistory() {
       ? `<ol class="answers">${ans.map((a) => `<li>${esc(a || '?')}</li>`).join('')}</ol>`
       : '<p class="muted">Facit är inte inlagt än.</p>';
     const rows = scored.map(({ g, s }) => {
-      const cls = (i) => (!s ? '' : s.perCity[i] === 2 ? 'hit' : s.perCity[i] === 1 ? 'near' : 'miss');
+      const cls = (i) => (!s ? '' : s.perCity[i] ? 'hit' : 'miss');
       const crown = s && top > 0 && s.total === top ? ' 👑' : '';
       return `<tr>
         <td><b>${esc(g.player)}</b>${crown}</td>

@@ -187,7 +187,6 @@ th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; colo
 .guesses td { white-space: nowrap; }
 
 td.hit { background: #d6f2df; color: #145c33; font-weight: 700; border-radius: 6px; }
-td.near { background: #fdf0c8; color: #6b4d00; font-weight: 600; border-radius: 6px; }
 td.miss { color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(214, 69, 69, 0.5); }
 
 .answers {

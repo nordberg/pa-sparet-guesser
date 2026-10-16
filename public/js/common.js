@@ -97,23 +97,16 @@ export function normalizeCity(s) {
 }
 
 /**
- * 2 p: right city on the right trip (1, 2 or 3)
- * 1 p: right city but on another trip
- * Returns { total, perCity: [0|1|2, ...] }
+ * 1 p per guessed city that is among the answers — order doesn't matter.
+ * Returns { total, perCity: [0|1, ...] }
  */
 export function score(guess, answers) {
-  const ans = answers.map(normalizeCity);
-  const used = new Set();
-  const perCity = [0, 0, 0];
-  const g = [guess.city1, guess.city2, guess.city3].map(normalizeCity);
-  // exact positions first
-  g.forEach((c, i) => {
-    if (c && ans[i] && c === ans[i]) { perCity[i] = 2; used.add(i); }
-  });
-  g.forEach((c, i) => {
-    if (perCity[i] || !c) return;
-    const j = ans.findIndex((a, k) => a && a === c && !used.has(k));
-    if (j !== -1) { perCity[i] = 1; used.add(j); }
+  const remaining = answers.map(normalizeCity).filter(Boolean);
+  const perCity = [guess.city1, guess.city2, guess.city3].map((c) => {
+    const i = remaining.indexOf(normalizeCity(c));
+    if (!c || i === -1) return 0;
+    remaining.splice(i, 1); // the same answer can't be matched twice
+    return 1;
   });
   return { total: perCity.reduce((a, b) => a + b, 0), perCity };
 }

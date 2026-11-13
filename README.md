@@ -3,6 +3,7 @@
 Family game: guess the three På Spåret cities **before** Friday's 20:00 episode.
 
 - `/` – enter your name + three cities for this week's round (editable until Friday 20:00 Swedish time). Other people's guesses stay sealed until the episode starts.
+- Past results are hidden behind a spoiler shield until you press "Jag har sett avsnittet – visa resultat", so you can guess this week's cities even if you are behind on episodes. Your choice is remembered per episode.
 - `/admin` – password-protected page for entering the correct cities and removing guesses.
 
 Scoring: 1 point per correct city, in any order.

@@ -95,6 +95,7 @@ main {
 .card h2, .card h3 { margin: 0 0 12px; }
 
 .section-title { color: #fff; margin: 12px 0 0; }
+.section-hint { color: rgba(255, 255, 255, 0.65); font-size: 0.88rem; margin: 4px 0 0; }
 #history { display: grid; gap: 16px; }
 
 .ticket {
@@ -200,5 +201,22 @@ td.miss { color: var(--muted); text-decoration: line-through; text-decoration-co
   padding: 6px 12px; border-radius: 999px; font-weight: 700;
 }
 .answers li::before { content: counter(stop) ". "; color: var(--accent); }
+
+.spoiler-card { border: 2px dashed var(--line); }
+.spoiler p { margin: 0 0 14px; color: var(--muted); }
+.spoiler-icon { font-size: 1.3em; margin-right: 4px; }
+.btn.secondary {
+  width: auto;
+  padding: 10px 16px;
+  background: var(--bg);
+  color: #fff;
+  box-shadow: 0 4px 0 #061027;
+  font-weight: 700;
+}
+.btn.secondary:active { box-shadow: 0 1px 0 #061027; }
+.round-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.round-head h3 { margin-bottom: 12px; }
+.hide-results { flex: none; font-size: 0.8rem; color: var(--muted); text-decoration: none; }
+.hide-results:hover { text-decoration: underline; }
 
 footer { text-align: center; color: rgba(255, 255, 255, 0.5); font-size: 0.8rem; padding: 0 16px 24px; }

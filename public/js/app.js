@@ -10,10 +10,29 @@ let state = { currentRound: null, rounds: [], guesses: [] };
 let timer;
 
 const LS_NAME = 'ps:name';
+const LS_REVEALED = 'ps:revealed';
 const ownKey = (date, name) => `ps:guess:${date}:${name.trim().toLowerCase()}`;
 
 function lsGet(k) { try { return localStorage.getItem(k); } catch { return null; } }
 function lsSet(k, v) { try { localStorage.setItem(k, v); } catch { /* ignore */ } }
+
+// Episodes whose results the player has chosen to reveal. Past episodes stay
+// hidden by default so nobody gets last week's destinations spoiled while
+// guessing this week's.
+function revealedDates() {
+  try {
+    const raw = JSON.parse(lsGet(LS_REVEALED) || '[]');
+    return new Set(Array.isArray(raw) ? raw.filter((d) => typeof d === 'string') : []);
+  } catch {
+    return new Set();
+  }
+}
+
+function setRevealed(date, reveal) {
+  const dates = revealedDates();
+  if (reveal) dates.add(date); else dates.delete(date);
+  lsSet(LS_REVEALED, JSON.stringify([...dates]));
+}
 
 async function load() {
   try {
@@ -104,6 +123,16 @@ function renderLeaderboard() {
     }).join('')}</tbody></table>`;
 }
 
+function renderSpoiler(date) {
+  return `<article class="card round spoiler-card">
+    <h3>${esc(formatDate(date))}</h3>
+    <div class="spoiler">
+      <p><span class="spoiler-icon" aria-hidden="true">🙈</span> Resultatet från det här avsnittet är dolt så att du kan gissa vidare utan spoilers.</p>
+      <button type="button" class="btn secondary" data-reveal="${date}" aria-label="Visa resultatet för ${esc(formatDate(date))}">Jag har sett avsnittet – visa resultat</button>
+    </div>
+  </article>`;
+}
+
 function renderHistory() {
   const dates = new Set([
     ...state.guesses.filter((g) => !g.sealed).map((g) => g.air_date),
@@ -114,9 +143,19 @@ function renderHistory() {
     $('history').innerHTML = '<div class="card"><span class="muted">Inga avgångar än. Det här blir historiskt.</span></div>';
     return;
   }
+  const revealed = revealedDates();
   $('history').innerHTML = sorted.map((date) => {
     const ans = answersFor(date);
     const gs = state.guesses.filter((g) => g.air_date === date && !g.sealed);
+    // Nothing to spoil yet, so there is no reason to hide anything.
+    if (!ans && !gs.length) {
+      return `<article class="card round">
+        <h3>${esc(formatDate(date))}</h3>
+        <p class="muted">Ingen gissade den här veckan och facit är inte inlagt än.</p>
+      </article>`;
+    }
+    // Keep the result out of the DOM completely until the player opts in.
+    if (!revealed.has(date)) return renderSpoiler(date);
     const scored = gs.map((g) => ({ g, s: ans ? score(g, ans) : null }))
       .sort((a, b) => (b.s?.total ?? 0) - (a.s?.total ?? 0));
     const top = scored.length && scored[0].s?.total ? scored[0].s.total : 0;
@@ -135,7 +174,10 @@ function renderHistory() {
       </tr>`;
     }).join('');
     return `<article class="card round">
-      <h3>${esc(formatDate(date))}</h3>
+      <div class="round-head">
+        <h3>${esc(formatDate(date))}</h3>
+        <button type="button" class="link hide-results" data-conceal="${date}">Dölj resultat</button>
+      </div>
       ${answerHtml}
       ${gs.length ? `<div class="scroll"><table class="guesses">
         <thead><tr><th>Namn</th><th>1</th><th>2</th><th>3</th><th class="num">P</th></tr></thead>
@@ -143,6 +185,18 @@ function renderHistory() {
     </article>`;
   }).join('');
 }
+
+$('history').addEventListener('click', (e) => {
+  const reveal = e.target.closest('[data-reveal]');
+  const conceal = e.target.closest('[data-conceal]');
+  if (reveal) {
+    setRevealed(reveal.dataset.reveal, true);
+    renderHistory();
+  } else if (conceal) {
+    setRevealed(conceal.dataset.conceal, false);
+    renderHistory();
+  }
+});
 
 function renderPlayersList() {
   const names = [...new Map(state.guesses.map((g) => [g.player.trim().toLowerCase(), g.player])).values()];
